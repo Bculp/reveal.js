@@ -1,61 +1,83 @@
-# reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.svg?branch=master)](https://travis-ci.org/hakimel/reveal.js) <a href="https://slides.com?ref=github"><img src="https://s3.amazonaws.com/static.slid.es/images/slides-github-banner-320x40.png?1" alt="Slides" width="160" height="20"></a>
+# Gatsby Presentation using Reveal.js
 
-A framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://revealjs.com/).
+Reveal.js is a framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://revealjs.com/).
 
 reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [Markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). There's also a fully featured visual editor and platform for sharing reveal.js presentations at [slides.com](https://slides.com?ref=github).
 
 
 ## Table of contents
 
-- [Online Editor](#online-editor)
-- [Installation](#installation)
-  - [Basic setup](#basic-setup)
-  - [Full setup](#full-setup)
-  - [Folder Structure](#folder-structure)
-- [Instructions](#instructions)
-  - [Markup](#markup)
-  - [Markdown](#markdown)
-  - [Element Attributes](#element-attributes)
-  - [Slide Attributes](#slide-attributes)
-- [Configuration](#configuration)
-- [Presentation Size](#presentation-size)
-- [Dependencies](#dependencies)
-- [Ready Event](#ready-event)
-- [Auto-sliding](#auto-sliding)
-- [Keyboard Bindings](#keyboard-bindings)
-- [Vertical Slide Navigation](#vertical-slide-navigation)
-- [Touch Navigation](#touch-navigation)
-- [Lazy Loading](#lazy-loading)
-- [API](#api)
-  - [Slide Changed Event](#slide-changed-event)
-  - [Presentation State](#presentation-state)
-  - [Slide States](#slide-states)
-  - [Slide Backgrounds](#slide-backgrounds)
-  - [Parallax Background](#parallax-background)
-  - [Slide Transitions](#slide-transitions)
-  - [Internal links](#internal-links)
-  - [Fragments](#fragments)
-  - [Fragment events](#fragment-events)
-  - [Code syntax highlighting](#code-syntax-highlighting)
-  - [Slide number](#slide-number)
-  - [Overview mode](#overview-mode)
-  - [Fullscreen mode](#fullscreen-mode)
-  - [Embedded media](#embedded-media)
-  - [Stretching elements](#stretching-elements)
-  - [Resize Event](#resize-event)
-  - [postMessage API](#postmessage-api)
-- [PDF Export](#pdf-export)
-- [Theming](#theming)
-- [Speaker Notes](#speaker-notes)
-  - [Share and Print Speaker Notes](#share-and-print-speaker-notes)
+
+- [Gatsby Presentation using Reveal.js](#gatsby-presentation-using-revealjs)
+  - [Table of contents](#table-of-contents)
+      - [More reading](#more-reading)
+  - [Installation](#installation)
+    - [Full setup](#full-setup)
+    - [Folder Structure](#folder-structure)
+  - [Instructions](#instructions)
+    - [Markup](#markup)
+    - [Markdown](#markdown)
+      - [External Markdown](#external-markdown)
+      - [Element Attributes](#element-attributes)
+      - [Slide Attributes](#slide-attributes)
+      - [Configuring *marked*](#configuring-marked)
+    - [Configuration](#configuration)
+    - [Presentation Size](#presentation-size)
+    - [Dependencies](#dependencies)
+    - [Ready Event](#ready-event)
+    - [Auto-sliding](#auto-sliding)
+    - [Keyboard Bindings](#keyboard-bindings)
+    - [Vertical Slide Navigation](#vertical-slide-navigation)
+      - [Navigation Mode](#navigation-mode)
+    - [Touch Navigation](#touch-navigation)
+    - [Lazy Loading](#lazy-loading)
+      - [Lazy Loading Iframes](#lazy-loading-iframes)
+    - [API](#api)
+    - [Custom Key Bindings](#custom-key-bindings)
+    - [Slide Changed Event](#slide-changed-event)
+    - [Presentation State](#presentation-state)
+    - [Slide States](#slide-states)
+    - [Slide Backgrounds](#slide-backgrounds)
+      - [Color Backgrounds](#color-backgrounds)
+      - [Image Backgrounds](#image-backgrounds)
+      - [Video Backgrounds](#video-backgrounds)
+      - [Iframe Backgrounds](#iframe-backgrounds)
+      - [Background Transitions](#background-transitions)
+    - [Parallax Background](#parallax-background)
+    - [Slide Transitions](#slide-transitions)
+    - [Internal links](#internal-links)
+    - [Fragments](#fragments)
+    - [Fragment events](#fragment-events)
+    - [Code Syntax Highlighting](#code-syntax-highlighting)
+      - [Line Numbers & Highlights](#line-numbers--highlights)
+    - [Slide number](#slide-number)
+    - [Overview mode](#overview-mode)
+    - [Fullscreen mode](#fullscreen-mode)
+    - [Embedded media](#embedded-media)
+    - [Embedded iframes](#embedded-iframes)
+    - [Stretching elements](#stretching-elements)
+    - [Resize Event](#resize-event)
+    - [postMessage API](#postmessage-api)
+  - [PDF Export](#pdf-export)
+    - [Separate pages for fragments](#separate-pages-for-fragments)
+    - [Page size](#page-size)
+    - [Print stylesheet](#print-stylesheet)
+    - [Instructions](#instructions-1)
+  - [Theming](#theming)
+  - [Speaker Notes](#speaker-notes)
+      - [Share and Print Speaker Notes](#share-and-print-speaker-notes)
+      - [Speaker notes clock and timers](#speaker-notes-clock-and-timers)
   - [Server Side Speaker Notes](#server-side-speaker-notes)
-- [Plugins](#plugins)
-- [Multiplexing](#multiplexing)
-  - [Master presentation](#master-presentation)
-  - [Client presentation](#client-presentation)
-  - [Socket.io server](#socketio-server)
-- [MathJax](#mathjax)
-- [License](#license)
+  - [Plugins](#plugins)
+    - [Retrieving Plugins](#retrieving-plugins)
+  - [Multiplexing](#multiplexing)
+      - [Master presentation](#master-presentation)
+      - [Client presentation](#client-presentation)
+      - [Socket.io server](#socketio-server)
+        - [socket.io server as file static server](#socketio-server-as-file-static-server)
+  - [MathJax](#mathjax)
+      - [MathJax in Markdown](#mathjax-in-markdown)
+  - [License](#license)
 
 #### More reading
 
@@ -65,22 +87,7 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 - [Plugins](https://github.com/hakimel/reveal.js/wiki/Plugins,-Tools-and-Hardware): A list of plugins that can be used to extend reveal.js.
 
 
-## Online Editor
-
-Presentations are written using HTML or Markdown but there's also an online editor for those of you who prefer a graphical interface. Give it a try at [https://slides.com](https://slides.com?ref=github).
-
-
 ## Installation
-
-The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features and plugins such as speaker notes as well as the development tasks needed to make changes to the source.
-
-### Basic setup
-
-The core of reveal.js is very easy to install. You'll simply need to download a copy of this repository and open the index.html file directly in your browser.
-
-1. Download the latest version of reveal.js from <https://github.com/hakimel/reveal.js/releases>
-2. Unzip and replace the example contents in index.html with your own
-3. Open index.html in a browser to view it
 
 ### Full setup
 
@@ -88,32 +95,35 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 
 1. Install [Node.js](http://nodejs.org/) (4.0.0 or later)
 
-1. Clone the reveal.js repository
+2. Clone the repository
    ```sh
-   $ git clone https://github.com/hakimel/reveal.js.git
+   $ git clone https://github.com/Bculp/reveal.js.git
    ```
 
-1. Navigate to the reveal.js folder
+3. Navigate to the reveal.js folder
    ```sh
    $ cd reveal.js
    ```
 
-1. Install dependencies
+4. Install dependencies
    ```sh
    $ npm install
+
+   *NOTE* npm did not work for me. I had to use yarn.
    ```
 
-1. Serve the presentation and monitor source files for changes
+5. Serve the presentation and monitor source files for changes
    ```sh
    $ npm start
    ```
 
-1. Open <http://localhost:8000> to view your presentation
+6. Open <http://localhost:8000> to view your presentation
 
    You can change the port by using `npm start -- --port=8001`.
 
 ### Folder Structure
 
+- **content/** Markdown files for each slide
 - **css/** Core styles without which the project does not function
 - **js/** Like above but for JavaScript
 - **plugin/** Components that have been developed as extensions to reveal.js
